@@ -30,7 +30,7 @@ def analyze(request):
     
     if space=="on":
         for char in djtext:
-            if char == ' ':
+            if char==" " or char=="\n":
                 a = djtext.replace(char, '')
                 djtext = a
         params = {'purpose': 'Removing spaces', 'analyzed_text': djtext}
