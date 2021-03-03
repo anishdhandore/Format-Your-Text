@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -10,6 +11,7 @@ def analyze(request):
     caps = request.POST.get('caps')
     space = request.POST.get('space')
 
+
     if punc == "on":
         punctuations = '''!()-[]{}|;:'"\,<>./?@#$%^&*_~'''
         analyzed = ""
@@ -17,15 +19,16 @@ def analyze(request):
             if char in punctuations:
                 a = djtext.replace(char, ' ')
                 djtext = a
+        messages.success(request, 'Your text was analyzed!')
         params = {'purpose': 'Removed punctuations', 'analyzed_text': djtext}
         return render(request, 'analyze.html', context= params)
      
-    elif caps=="on":
+    if caps=="on":
         analyzed = djtext.upper()
         params = {'purpose': 'Capitalized text', 'analyzed_text': analyzed} 
         return render(request, 'analyze.html', context= params)
     
-    elif space=="on":
+    if space=="on":
         for char in djtext:
             if char == ' ':
                 a = djtext.replace(char, '')
@@ -35,6 +38,8 @@ def analyze(request):
 
     else:
         return redirect('/')
+    
+    
     
 
 
